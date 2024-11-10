@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse Statistique - Médiane</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            direction: rtl;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            width: 80%;
+            max-width: 300px;
+        }
+        label {
+            font-size: 18px;
+            display: block;
+            margin-top: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Analyse Statistique - Médiane <br/> recensement général de la population et de l’habitat au maroc
+Entrez les nombres (séparés par des virgules) :</h1>
+    
+    <label for="data">Entrez les données (séparées par des virgules):</label>
+    <input type="text" id="data" placeholder="Exemple: 10, 20, 30, 40, 50" required>
+
+    <button type="button" onclick="calculateMedian()">Calculer la Médiane</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        function calculateMedian() {
+            const inputData = document.getElementById('data').value;
+            const dataArray = inputData.split(',').map(Number).sort((a, b) => a - b);
+
+            // Vérification des entrées
+            if (dataArray.some(isNaN)) {
+                alert("Veuillez entrer uniquement des valeurs numériques.");
+                return;
+            }
+
+            // Calcul de la médiane
+            const mid = Math.floor(dataArray.length / 2);
+            let median;
+
+            if (dataArray.length % 2 === 0) {
+                median = (dataArray[mid - 1] + dataArray[mid]) / 2;
+            } else {
+                median = dataArray[mid];
+            }
+
+            // Conclusions basées sur la médiane
+            let conclusion = '';
+            const range = Math.max(...dataArray) - Math.min(...dataArray);
+            if (range > 50) {
+                conclusion = 'Les données contiennent des valeurs extrêmes ou une grande variation.';
+            } else {
+                conclusion = 'Les données sont relativement équilibrées.';
+            }
+
+            // Affichage des résultats
+            document.getElementById('result').innerHTML = `
+                <p>La médiane des données est : <strong>${median}</strong></p>
+                <p><strong>Conclusion :</strong> ${conclusion}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
